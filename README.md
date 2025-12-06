@@ -65,8 +65,6 @@ python scripts/hf_scripts/download_hf.py \
     --local_dir /path/to/osbench
 ```
 
-For more details about the OSBench evaluation benchmark, please refer to [OSBench README](osbench/README.md).
-
 ## Model Weights
 
 ### Download Pre-trained Model Weights
