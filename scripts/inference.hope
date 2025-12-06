@@ -11,7 +11,7 @@ worker.memory = 1600010
 worker.vcore = 160
 worker.gcoresh800-80g = 8
 worker.ports = 1
-worker.script = source /opt/rh/devtoolset-8/enable; gcc --version; ldd --version; strings /lib64/libc.so.6 | grep GLIBC; source /mnt/dolphinfs/ssd_pool/docker/user/hadoop-hldy-nlp/3A/multimodal/liuyexin/miniconda3/bin/activate; conda activate omnigen2; cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-hl02/hadoop-aipnlp/3A/multimodal/liuyexin/workspace/project/omnigen-mt-eval; bash shell/eval-open-gpt-image/opensubject/omnigen/inference.sh 
+worker.script = source /opt/rh/devtoolset-8/enable; gcc --version; ldd --version; strings /lib64/libc.so.6 | grep GLIBC; source /mnt/dolphinfs/ssd_pool/docker/user/hadoop-hldy-nlp/3A/multimodal/liuyexin/miniconda3/bin/activate; conda activate opensubject; cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-hl02/hadoop-aipnlp/3A/multimodal/liuyexin/workspace/project/OpenSubject; bash scripts/inference.sh 
 
 [user_args]
 afo.app.suspend.max = 2

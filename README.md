@@ -4,11 +4,11 @@
   <img src="assets/cover_fig.png" width="95%">
 </p>
 
-OpenSubject is a comprehensive framework for subject-driven image generation and manipulation. Built upon OmniGen2, it provides a robust pipeline for training, evaluating, and deploying models capable of understanding and generating images with specific subjects across various contexts.
+OpenSubject is a video-derived large-scale corpus for subject-driven generation and manipulation.
 
 ## News 🚀🚀🚀
 
-- **[2025-12]** OpenSubject v1 released with OSBench evaluation benchmark
+- **[2025-12]** OpenSubject released with OSBench evaluation benchmark
 - **[2025-12]** Dataset and model weights available on Hugging Face
 
 ## Environment Setup
@@ -28,19 +28,11 @@ conda activate opensubject
 
 ### 3. Install Dependencies
 
-#### 3.1 Install PyTorch (choose correct CUDA version)
-
-```bash
-pip install torch==2.6.0 torchvision --extra-index-url https://download.pytorch.org/whl/cu124
-```
-
-#### 3.2 Install Other Required Packages
-
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 3.3 Install Flash Attention (Recommended)
+#### 31 Install Flash Attention (Recommended)
 
 ```bash
 # Note: Version 2.7.4.post1 is specified for compatibility with CUDA 12.4.
@@ -59,7 +51,7 @@ Download the OpenSubject training dataset from Hugging Face:
 python scripts/hf_scripts/download_hf.py \
     --repo_id AIPeanutman/OpenSubject \
     --repo_type dataset \
-    --local_dir ./data/opensubject
+    --local_dir /path/to/opensubject_dataset
 ```
 
 ### Download OSBench
@@ -70,7 +62,7 @@ Download the OSBench evaluation benchmark:
 python scripts/hf_scripts/download_hf.py \
     --repo_id AIPeanutman/OSBench \
     --repo_type dataset \
-    --local_dir ./data/osbench
+    --local_dir /path/to/osbench
 ```
 
 For more details about the OSBench evaluation benchmark, please refer to [OSBench README](osbench/README.md).
@@ -85,65 +77,126 @@ Download the fine-tuned OpenSubject model weights:
 python scripts/hf_scripts/download_hf.py \
     --repo_id AIPeanutman/OpenSubject \
     --repo_type model \
-    --local_dir ./models/opensubject
+    --local_dir /path/to/opensubject_model
 ```
 
 The model weights will be downloaded to the specified local directory.
 
 ## Inference
 
-### Quick Start
+### Quick Start with cli
 
-To generate images using the OpenSubject model:
+The CLI tool (`scripts/inference_cli.py`) allows you to generate images directly from the command line with a simple text prompt.
 
-```bash
-bash scripts/inference.sh
-```
+#### Basic Usage
 
-You can modify the following parameters in `scripts/inference.sh`:
-
-- `model_path`: Path to the base OmniGen2 model
-- `transformer_path`: Path to the fine-tuned transformer weights
-- `test_data`: Path to your test data
-- `result_dir`: Directory to save generated results
-- `num_inference_step`: Number of denoising steps (default: 50)
-- `height` / `width`: Output image dimensions (default: 720x1280)
-- `text_guidance_scale`: Text guidance scale (default: 5.0)
-- `image_guidance_scale`: Image guidance scale (default: 2.0)
-
-### Example Command
+Generate an image from a text prompt:
 
 ```bash
-accelerate launch --num_processes=1 -m OSBench.inference \
-    --model_path /path/to/OmniGen2 \
-    --transformer_path /path/to/opensubject/transformer \
-    --model_name "OmniGen2" \
-    --test_data /path/to/test_data \
-    --result_dir ./results \
+python scripts/inference_cli.py \
+    --model_path /path/to/omnigen2_model \
+    --transformer_path /path/to/opensubject_model \
+    --prompt "a beautiful landscape with mountains and lakes" \
+    --output_path output.png \
     --num_inference_step 50 \
-    --height 720 \
-    --width 1280 \
-    --text_guidance_scale 5.0 \
-    --image_guidance_scale 2.0 \
-    --num_images_per_prompt 1 \
-    --dtype 'fp16' \
-    --disable_align_res
+    --height 1024 \
+    --width 1024
 ```
+
+#### With Input Images (Image-to-Image)
+
+Generate an image with reference input images:
+
+```bash
+python scripts/inference_cli.py \
+    --model_path /path/to/omnigen2_model \
+    --transformer_path /path/to/opensubject_model \
+    --prompt "transform the scene to sunset" \
+    --input_images input1.jpg input2.jpg \
+    --output_path result.png \
+    --num_inference_step 50
+```
+
+#### Key Parameters
+
+- `--model_path`: Path to the model checkpoint (required)
+- `--transformer_path`: Path to transformer checkpoint (optional, uses model_path/transformer if not specified)
+- `--prompt`: Text prompt for image generation (required)
+- `--input_images`: Input image paths or directory (optional, for image-to-image tasks)
+- `--output_path`: Path to save generated image(s) (default: `output.png`)
+- `--num_inference_step`: Number of inference steps (default: 50)
+- `--height` / `--width`: Output image dimensions (default: 1024x1024)
+- `--text_guidance_scale`: Text guidance scale (default: 5.0)
+- `--image_guidance_scale`: Image guidance scale (default: 2.0)
+- `--num_images_per_prompt`: Number of images to generate (default: 1)
+- `--seed`: Random seed for reproducibility (default: 0)
+- `--scheduler`: Scheduler type - `euler` or `dpmsolver` (default: `euler`)
+- `--dtype`: Data type - `fp32`, `fp16`, or `bf16` (default: `bf16`)
+- `--disable_align_res`: Disable resolution alignment to input images
 
 ## Evaluation
-
-To evaluate the model on OSBench:
-
-```bash
-bash scripts/eval.sh
-```
-
 The evaluation pipeline consists of two steps:
 
 1. **GPT-4 Based Scoring**: Uses GPT-4.1 to evaluate generated images
 2. **Statistics Calculation**: Computes final metrics
 
-For detailed evaluation instructions, please refer to [OSBench README](osbench/README.md).
+### Step1 Generate Images
+
+Note: we fix the resolution of the output images at 720 × 1280 to ensure that the settings are consistent across different models.
+
+You may try generating results using OmniGen2 or other models; please ensure that the output image directory structure and format are consistent with the format specified below.
+
+```
+results/
+├── {method_name}/
+│   └── fullset/
+│       └── {task_type}/
+│           ├── key1.png
+│           ├── key2.png
+│           └── ...
+```
+
+To use OmniGen2, you can run the following script to generate images:
+
+```bash
+
+accelerate launch --num_processes=8 -m osbench.inference \
+--model_path "OmniGen2/OmniGen2" \
+--model_name "OmniGen2" \
+--test_data "OmniGen2/OSBench" \
+--result_dir "osbench/results" \
+--num_inference_step 50 \
+--height 1024 \
+--width 1024 \
+--text_guidance_scale 5.0 \
+--image_guidance_scale 2.0 \
+--num_images_per_prompt 1 \
+--disable_align_res # Align the resolution to the original image when dealing image editing tasks, disable it when dealing in context generation tasks.
+```
+
+###  Step2 Evaluation
+
+1. We use GPT-4.1 to evaluate the quality of the generated images. Please make sure to set up your API key before running the script.
+
+```bash
+openai_key="<Your-API-Key>"
+
+python -m osbench.test_osbench_score \
+--test_data "OmniGen2/OSBench" \
+--result_dir "osbench/results" \
+--model_name "OmniGen2" \
+--openai_key ${openai_key} \
+--max_workers 16
+```
+
+2. Next, calculate the final score:
+
+```bash
+python -m osbench.calculate_statistics \
+--save_path "osbench/results" \
+--model_name "OmniGen2" \
+--backbone gpt4dot1
+```
 
 ## References
 

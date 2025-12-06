@@ -1,3 +1,5 @@
+numpy<2.0
+pyarrow
 torch==2.6.0
 torchvision==0.21.0
 timm
@@ -7,8 +9,8 @@ transformers==4.51.3
 diffusers
 opencv-python-headless
 scipy
-wandb
-matplotlib
+wandb<0.16
+matplotlib==3.7.3
 Pillow
 tqdm
 omegaconf
@@ -16,6 +18,7 @@ python-dotenv
 ninja
 ipykernel
 wheel
-triton-windows; sys_platform == "win32"
-datasets
+triton
+datasets < 4.0 --only-binary=:all:
 megfile
+huggingface_hub
