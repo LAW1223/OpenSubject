@@ -32,7 +32,7 @@ conda activate opensubject
 pip install -r requirements.txt
 ```
 
-#### 31 Install Flash Attention (Recommended)
+#### 3.1 Install Flash Attention (Recommended)
 
 ```bash
 # Note: Version 2.7.4.post1 is specified for compatibility with CUDA 12.4.
@@ -156,22 +156,22 @@ results/
 │           └── ...
 ```
 
-To use OmniGen2, you can run the following script to generate images:
+To use Opensubject, you can run the following script to generate images:
 
 ```bash
 
 accelerate launch --num_processes=8 -m osbench.inference \
---model_path "OmniGen2/OmniGen2" \
---model_name "OmniGen2" \
---test_data "OmniGen2/OSBench" \
---result_dir "osbench/results" \
+--model_path /path/to/omnigen2_model \
+--transformer_path /path/to/opensubject_model \
+--test_data /path/to/osbench \
+--result_dir /path/to/results \
 --num_inference_step 50 \
---height 1024 \
---width 1024 \
+--height 720 \
+--width 1280 \
 --text_guidance_scale 5.0 \
 --image_guidance_scale 2.0 \
 --num_images_per_prompt 1 \
---disable_align_res # Align the resolution to the original image when dealing image editing tasks, disable it when dealing in context generation tasks.
+--disable_align_res 
 ```
 
 ###  Step2 Evaluation
@@ -182,8 +182,8 @@ accelerate launch --num_processes=8 -m osbench.inference \
 openai_key="<Your-API-Key>"
 
 python -m osbench.test_osbench_score \
---test_data "OmniGen2/OSBench" \
---result_dir "osbench/results" \
+--test_data /path/to/osbench \
+--result_dir /path/to/results \
 --model_name "OmniGen2" \
 --openai_key ${openai_key} \
 --max_workers 16
@@ -193,7 +193,7 @@ python -m osbench.test_osbench_score \
 
 ```bash
 python -m osbench.calculate_statistics \
---save_path "osbench/results" \
+--save_path /path/to/results \
 --model_name "OmniGen2" \
 --backbone gpt4dot1
 ```
