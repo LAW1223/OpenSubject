@@ -78,13 +78,11 @@ python scripts/hf_scripts/download_hf.py \
     --local_dir /path/to/opensubject_model
 ```
 
-The model weights will be downloaded to the specified local directory.
-
 ## Inference
 
 ### Quick Start with cli
 
-The CLI tool (`scripts/inference_cli.py`) allows you to generate images directly from the command line with a simple text prompt.
+The CLI tool (`scripts/inference_cli.py`) allows you to generate images directly from the command line.
 
 #### Basic Usage
 
