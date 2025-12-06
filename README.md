@@ -1,7 +1,7 @@
 # OpenSubject
 
 <p align="center">
-  <img src="assets/cover_fig.pdf" width="95%">
+  <img src="assets/cover_fig.png" width="95%">
 </p>
 
 OpenSubject is a comprehensive framework for subject-driven image generation and manipulation. Built upon OmniGen2, it provides a robust pipeline for training, evaluating, and deploying models capable of understanding and generating images with specific subjects across various contexts.
