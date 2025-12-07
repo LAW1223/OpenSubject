@@ -63,6 +63,28 @@ python scripts/hf_scripts/download_hf.py \
     --local_dir /path/to/opensubject_dataset
 ```
 
+#### Extract Image Packages
+
+After downloading, extract the image packages to restore the original directory structure:
+
+```bash
+python scripts/unzip_images/extract_images.py \
+    --packages_dir /path/to/opensubject_dataset/Images_packages \
+    --output_dir /path/to/opensubject_dataset/Images \
+    --num_workers 32
+```
+
+This will extract all tar.gz files and restore the directory structure:
+```
+Images/
+├── generation/
+│   ├── input_images/
+│   └── output_images/
+└── manipulation/
+    ├── input_images/
+    └── output_images/
+```
+
 ### Download OSBench
 
 Download the OSBench evaluation benchmark:
