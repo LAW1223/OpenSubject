@@ -1,10 +1,12 @@
-# OpenSubject
+<h1 align="center">OpenSubject</h1>
 
 <p align="center">
   <img src="assets/cover_fig.png" width="95%">
 </p>
 
+<p align="center">
 OpenSubject is a video-derived large-scale corpus for subject-driven generation and manipulation.
+</p>
 
 ## News 🚀🚀🚀
 
