@@ -252,7 +252,7 @@ python -m osbench.calculate_statistics \
 --backbone gpt4dot1
 ```
 
-## References
+## Acknowledgements
 
 Part of the code is based upon [OmniGen2](https://github.com/VectorSpaceLab/OmniGen2). Thanks for their great work!
 
