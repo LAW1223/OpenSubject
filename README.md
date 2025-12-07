@@ -1,6 +1,13 @@
 <h1 align="center">OpenSubject</h1>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="Paper"></a>
+  <a href="https://huggingface.co/datasets/AIPeanutman/OpenSubject"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Dataset-yellow.svg" alt="Dataset"></a>
+  <a href="https://huggingface.co/AIPeanutman/OpenSubject"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Model-blue.svg" alt="Model"></a>
+  <a href="https://huggingface.co/datasets/AIPeanutman/OSBench"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Benchmark-green.svg" alt="Benchmark"></a>
+</p>
+
+<p align="center">
   <img src="assets/cover_fig.png" width="95%">
 </p>
 
