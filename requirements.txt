@@ -19,6 +19,6 @@ ninja
 ipykernel
 wheel
 triton
-datasets < 4.0 --only-binary=:all:
+datasets == 4.0.0 --only-binary=:all:
 megfile
 huggingface_hub

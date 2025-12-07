@@ -160,30 +160,62 @@ class Collator:
         return features
     
 def load_pipeline(args: argparse.Namespace, accelerator: Accelerator, weight_dtype: torch.dtype) -> OmniGen2Pipeline:
-    from transformers import CLIPProcessor
-    pipeline = OmniGen2Pipeline.from_pretrained(
-        args.model_path,
-        processor=CLIPProcessor.from_pretrained(
-            args.model_path,
-            subfolder="processor",
-            use_fast=True
-        ),
-        torch_dtype=weight_dtype,
-        trust_remote_code=True,
-    )
-
+    from transformers import CLIPProcessor, AutoModel
+    from diffusers import AutoencoderKL
+    from omnigen2.schedulers.scheduling_flow_match_euler_discrete import FlowMatchEulerDiscreteScheduler
+    
+    # Load transformer
     if args.transformer_path:
         print(f"Transformer weights loaded from {args.transformer_path}")
-        pipeline.transformer = OmniGen2Transformer2DModel.from_pretrained(
+        transformer = OmniGen2Transformer2DModel.from_pretrained(
             args.transformer_path,
             torch_dtype=weight_dtype,
         )
     else:
-        pipeline.transformer = OmniGen2Transformer2DModel.from_pretrained(
+        transformer = OmniGen2Transformer2DModel.from_pretrained(
             args.model_path,
             subfolder="transformer",
             torch_dtype=weight_dtype,
         )
+    
+    # Load other components manually
+    print("Loading VAE...")
+    vae = AutoencoderKL.from_pretrained(
+        args.model_path,
+        subfolder="vae",
+        torch_dtype=weight_dtype,
+    )
+    
+    print("Loading MLLM...")
+    mllm = AutoModel.from_pretrained(
+        args.model_path,
+        subfolder="mllm",
+        torch_dtype=weight_dtype,
+        trust_remote_code=True,
+    )
+    
+    print("Loading processor...")
+    processor = CLIPProcessor.from_pretrained(
+        args.model_path,
+        subfolder="processor",
+        use_fast=True
+    )
+    
+    print("Loading scheduler...")
+    scheduler = FlowMatchEulerDiscreteScheduler.from_pretrained(
+        args.model_path,
+        subfolder="scheduler",
+    )
+    
+    # Manually construct pipeline
+    print("Constructing pipeline...")
+    pipeline = OmniGen2Pipeline(
+        transformer=transformer,
+        vae=vae,
+        mllm=mllm,
+        processor=processor,
+        scheduler=scheduler,
+    )
 
     if args.scheduler == "dpmsolver":
         from omnigen2.schedulers.scheduling_dpmsolver_multistep import DPMSolverMultistepScheduler

@@ -11,7 +11,7 @@ from collections import defaultdict
 
 from PIL import Image
 
-from OSBench.osbench_score import OSBenchScore
+from osbench.osbench_score import OSBenchScore
 
 
 def process_single_item(item, vie_score, max_retries=5):
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    omnicontext_score = OmniContextScore(args.openai_url, args.openai_key)
+    omnicontext_score = OSBenchScore(args.openai_url, args.openai_key)
 
     test_dataset = datasets.load_from_disk(args.test_data)
 

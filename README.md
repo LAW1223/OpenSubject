@@ -45,7 +45,7 @@ pip install flash-attn==2.7.4.post1 --no-build-isolation
 
 ### Download OpenSubject Dataset
 
-Download the OpenSubject training dataset from Hugging Face:
+Download the OpenSubject dataset from Hugging Face:
 
 ```bash
 python scripts/hf_scripts/download_hf.py \
@@ -68,6 +68,15 @@ python scripts/hf_scripts/download_hf.py \
 ## Model Weights
 
 ### Download Pre-trained Model Weights
+
+Download the base omnigen2 model weights:
+
+```bash
+python scripts/hf_scripts/download_hf.py \
+    --repo_id OmniGen2/OmniGen2 \
+    --repo_type model \
+    --local_dir /path/to/omnigen2_model
+```
 
 Download the fine-tuned OpenSubject model weights:
 
@@ -131,10 +140,28 @@ python scripts/inference_cli.py \
 - `--disable_align_res`: Disable resolution alignment to input images
 
 ## Evaluation
+
 The evaluation pipeline consists of two steps:
 
 1. **GPT-4 Based Scoring**: Uses GPT-4.1 to evaluate generated images
 2. **Statistics Calculation**: Computes final metrics
+
+### Quick Start with Provided Script
+
+For convenience, we provide a complete inference and evaluation script at `scripts/inference.sh`. You can directly use this script by simply modifying the model and data paths:
+
+```bash
+# Edit the following variables in scripts/inference.sh:
+# - model_path: Path to base OmniGen2 model
+# - transformer_path: Path to OpenSubject fine-tuned transformer
+# - test_data: Path to OSBench dataset
+# - output_dir: Directory to save results
+# - openai_key: Your OpenAI API key for evaluation
+
+bash scripts/eval.sh
+```
+
+This script will automatically run inference and evaluation. For more detailed control, follow the manual steps below.
 
 ### Step1 Generate Images
 

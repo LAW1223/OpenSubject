@@ -218,9 +218,6 @@ class OmniGen2AttnProcessorFlash2Varlen:
             key_states = repeat(key_states, "l h c -> l (h k) c", k=attn.heads // kv_heads)
             value_states = repeat(value_states, "l h c -> l (h k) c", k=attn.heads // kv_heads)
 
-        key_states = key_states
-        print("key_states shape: ", key_states.shape)
-
         # Apply flash attention
         attn_output_unpad = flash_attn_varlen_func(
             query_states,
@@ -346,8 +343,6 @@ class OmniGen2AttnProcessor:
         # explicitly repeat key and value to match query length, otherwise using enable_gqa=True results in MATH backend of sdpa in our test of pytorch2.6
         key = key.repeat_interleave(query.size(-3) // key.size(-3), -3)
         value = value.repeat_interleave(query.size(-3) // value.size(-3), -3)
-        key = key
-        print("key shape: ", key.shape)
 
         hidden_states = F.scaled_dot_product_attention(
             query, key, value, attn_mask=attention_mask, scale=softmax_scale

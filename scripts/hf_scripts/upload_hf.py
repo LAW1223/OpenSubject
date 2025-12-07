@@ -37,15 +37,15 @@ def main():
     )
     
     args = parser.parse_args()
-    
-    api = HfApi()
+
+api = HfApi()
     
     print(f"Uploading folder: {args.folder_path}")
     print(f"To repo: {args.repo_id}")
     print(f"Path in repo: {args.path_in_repo or 'root'}")
     print(f"Repo type: {args.repo_type}")
-    
-    api.upload_folder(
+
+api.upload_folder(
         folder_path=args.folder_path,
         repo_id=args.repo_id,
         repo_type=args.repo_type,
