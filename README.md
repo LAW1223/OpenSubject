@@ -182,7 +182,7 @@ The evaluation pipeline consists of two steps:
 For convenience, we provide a complete inference and evaluation script at `scripts/inference.sh`. You can directly use this script by simply modifying the model and data paths:
 
 ```bash
-# Edit the following variables in scripts/inference.sh:
+# Edit the following variables in scripts/eval.sh:
 # - model_path: Path to base OmniGen2 model
 # - transformer_path: Path to OpenSubject fine-tuned transformer
 # - test_data: Path to OSBench dataset
