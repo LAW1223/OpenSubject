@@ -1,0 +1,24 @@
+numpy<2.0
+pyarrow
+torch==2.6.0
+torchvision==0.21.0
+timm
+einops
+accelerate
+transformers==4.51.3
+diffusers
+opencv-python-headless
+scipy
+wandb<0.16
+matplotlib==3.7.3
+Pillow
+tqdm
+omegaconf
+python-dotenv
+ninja
+ipykernel
+wheel
+triton
+datasets == 4.0.0 --only-binary=:all:
+megfile
+huggingface_hub
