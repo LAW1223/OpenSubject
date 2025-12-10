@@ -1,7 +1,7 @@
 <h1 align="center">OpenSubject</h1>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="Paper"></a>
+  <a href="https://arxiv.org/abs/2512.08294"><img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="Paper"></a>
   <a href="https://huggingface.co/datasets/AIPeanutman/OpenSubject"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Dataset-yellow.svg" alt="Dataset"></a>
   <a href="https://huggingface.co/AIPeanutman/OpenSubject"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Model-blue.svg" alt="Model"></a>
   <a href="https://huggingface.co/datasets/AIPeanutman/OSBench"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Benchmark-green.svg" alt="Benchmark"></a>
@@ -261,10 +261,13 @@ Part of the code is based upon [OmniGen2](https://github.com/VectorSpaceLab/Omni
 If you find this work useful, please consider citing:
 
 ```bibtex
-@article{opensubject2025,
-  title={OpenSubject: Subject-Driven Image Generation and Manipulation},
-  author={Your Name},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2025}
+@article{liu2025opensubjectleveragingvideoderivedidentity,
+      title={OpenSubject: Leveraging Video-Derived Identity and Diversity Priors for Subject-driven Image Generation and Manipulation}, 
+      author={Yexin Liu and Manyuan Zhang and Yueze Wang and Hongyu Li and Dian Zheng and Weiming Zhang and Changsheng Lu and Xunliang Cai and Yan Feng and Peng Pei and Harry Yang},
+      year={2025},
+      eprint={2512.08294},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2512.08294}, 
 }
 ```
